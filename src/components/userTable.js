@@ -42,9 +42,9 @@ const UserTable = () => {
 
     const handleAddNewUser = () => {
         axios.post('http://localhost:3001/users', {
-            name: '',
-            email: '',
-            role: '',
+            name: 'New user',
+            email: 'newuser@example.com',
+            role: 'SALES',
         })
         .then(response => {
             setUsers([...users, response.data]);
@@ -88,7 +88,7 @@ const UserTable = () => {
                             <td>
                                 {editRowID === user.id ? 
                                 (<input 
-                                    type = "text" 
+                                    type = "email" 
                                     value = {user.email} 
                                     onChange = {
                                         (e) => handleInputChange(user.id, 'email', e.target.value)
@@ -109,8 +109,8 @@ const UserTable = () => {
                             </td>
                             <td>
                                 {editRowID === user.id ? 
-                                (<button onClick = {handleSaveClick(user.id)}>Save</button>)
-                                : (<button onClick = {handleEditClick(user.id)}>Edit</button>)}
+                                (<button onClick = {() => handleSaveClick(user.id)}>Save</button>)
+                                : (<button onClick = {() => handleEditClick(user.id)}>Edit</button>)}
                             </td>
                         </tr>
                     ))}
