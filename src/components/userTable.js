@@ -57,7 +57,7 @@ const UserTable = () => {
 
     return (
         <div>
-            <button onClick={handleAddNewUser}>
+            <button class="add-user-button" onClick={handleAddNewUser}>
                 Add New User
             </button>
             <table>
