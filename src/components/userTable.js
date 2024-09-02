@@ -27,8 +27,14 @@ const UserTable = () => {
 
         // Validate email format using RegEx
         if (!emailPattern.test(user.email)) {
-            alert('Invalid email format. Please enter a valid email address.');
+            alert('Email 格式錯誤，請重新輸入。\nInvalid email format. Please enter a valid email address.');
             return;
+        }
+
+        const isDuplicateEmail = users.some(u => u.email === user.email && u.id !== id);
+        if (isDuplicateEmail) {
+            alert('Email 已有人使用，請重新輸入。\nEmail is already in use. Please enter a different email address.');
+            return ;
         }
 
         // save the updated data
