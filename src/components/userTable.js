@@ -20,8 +20,17 @@ const UserTable = () => {
         setEditRowID(id);
     };
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     const handleSaveClick = (id) => {
         const user = users.find(user => user.id === id);
+
+        // Validate email format using RegEx
+        if (!emailPattern.test(user.email)) {
+            alert('Invalid email format. Please enter a valid email address.');
+            return;
+        }
+
         // save the updated data
         axios.patch(`http://localhost:3001/users/${id}`, {
             name: user.name,
@@ -79,6 +88,7 @@ const UserTable = () => {
                                 (<input 
                                     type = "text" 
                                     value = {user.name} 
+                                    maxLength={15}
                                     onChange = {
                                         (e) => handleInputChange(user.id, 'name', e.target.value)
                                     }
@@ -89,7 +99,8 @@ const UserTable = () => {
                                 {editRowID === user.id ? 
                                 (<input 
                                     type = "email" 
-                                    value = {user.email} 
+                                    value = {user.email}
+                                    maxLength={25}
                                     onChange = {
                                         (e) => handleInputChange(user.id, 'email', e.target.value)
                                     }
@@ -98,18 +109,22 @@ const UserTable = () => {
                             </td>
                             <td>
                                 {editRowID === user.id ? 
-                                (<input 
-                                    type = "text" 
-                                    value = {user.role} 
-                                    onChange = {
-                                        (e) => handleInputChange(user.id, 'role', e.target.value)
-                                    }
-                                />)
+                                (<select 
+                                    value={user.role} 
+                                    onChange={(e) => handleInputChange(user.id, 'role', e.target.value)}
+                                >
+                                    <option value="SALES">SALES</option>
+                                    <option value="CLIENT">CLIENT</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                </select>)
                                 : (user.role)}
                             </td>
                             <td>
                                 {editRowID === user.id ? 
-                                (<button onClick = {() => handleSaveClick(user.id)}>Save</button>)
+                                (<button onClick = {() => handleSaveClick(user.id)} 
+                                         disabled={!user.email || user.email === 'newuser@example.com'} // Disable save if default email
+                                >
+                                    Save</button>)
                                 : (<button onClick = {() => handleEditClick(user.id)}>Edit</button>)}
                             </td>
                         </tr>

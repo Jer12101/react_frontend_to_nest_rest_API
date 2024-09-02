@@ -42,6 +42,14 @@ button:hover {
   background-color: #45a049;
 }
 
+button:disabled {
+  background-color: #cccccc; /* Duller color for disabled button */
+  color: #666666;            /* Text color for disabled button */
+  cursor: not-allowed;       /* Change cursor to indicate button is not clickable */
+  opacity: 0.6;              /* Add opacity for a dull effect */
+}
+
+
 input[type="text"], input[type="email"] {
   width: 100%;
   padding: 5px;
