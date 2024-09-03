@@ -94,7 +94,7 @@ const UserTable = () => {
                                 (<input 
                                     type = "text" 
                                     value = {user.name} 
-                                    maxLength={15}
+                                    maxLength = {15}
                                     onChange = {
                                         (e) => handleInputChange(user.id, 'name', e.target.value)
                                     }
@@ -106,7 +106,7 @@ const UserTable = () => {
                                 (<input 
                                     type = "email" 
                                     value = {user.email}
-                                    maxLength={25}
+                                    maxLength = {25}
                                     onChange = {
                                         (e) => handleInputChange(user.id, 'email', e.target.value)
                                     }
@@ -116,8 +116,10 @@ const UserTable = () => {
                             <td>
                                 {editRowID === user.id ? 
                                 (<select 
-                                    value={user.role} 
-                                    onChange={(e) => handleInputChange(user.id, 'role', e.target.value)}
+                                    value = {user.role} 
+                                    onChange = {
+                                        (e) => handleInputChange(user.id, 'role', e.target.value)
+                                    }
                                 >
                                     <option value="SALES">SALES</option>
                                     <option value="CLIENT">CLIENT</option>
@@ -128,7 +130,7 @@ const UserTable = () => {
                             <td>
                                 {editRowID === user.id ? 
                                 (<button onClick = {() => handleSaveClick(user.id)} 
-                                         disabled={!user.email || user.email === 'newuser@example.com'} // Disable save if default email
+                                         disabled = {!user.email || user.email === 'newuser@example.com'} // Disable save if default email
                                 >
                                     Save</button>)
                                 : (<button onClick = {() => handleEditClick(user.id)}>Edit</button>)}
