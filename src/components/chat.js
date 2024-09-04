@@ -3,6 +3,11 @@ import { io } from 'socket.io-client';
 
 const socket = io('ws://localhost:3001');
 
+// Triggering disconnect on window unload (like when the page is closed)
+window.addEventListener('beforeunload', () => {
+    socket.disconnect();
+});
+
 const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
