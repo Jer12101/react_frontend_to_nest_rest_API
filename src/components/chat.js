@@ -55,11 +55,12 @@ const Chat = () => {
                 </div>   
             ):(
                 // If the user has joined the chat room
+                // always remember what the add-message.dto contains, an author and a 'body'
                 <div>
                     <div className = "chat-window">
                         {messages.map((msg, index) => (
                             <div key = {index}>
-                                <strong>{msg.author}:</strong>{msg.content}
+                                <strong>{msg.author}:</strong>{msg.body}
                             </div>
                         ))}
                         <input
