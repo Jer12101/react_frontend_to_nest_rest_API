@@ -37,6 +37,11 @@ const UserTable = () => {
             return ;
         }
 
+         // Prevent saving if the email is still the default one
+        if (user.email === 'newuser@example.com') {
+            alert('請修改預設的 email。\nPlease change the default email before saving.');
+            return;
+        }
         // save the updated data
         axios.patch(`http://localhost:3001/users/${id}`, {
             name: user.name,
@@ -56,6 +61,7 @@ const UserTable = () => {
     };
 
     const handleAddNewUser = () => {
+        /*console.log('Add New User button clicked');
         axios.post('http://localhost:3001/users', {
             name: 'New user',
             email: 'newuser@example.com',
@@ -67,6 +73,33 @@ const UserTable = () => {
         })
         .catch(error => {
             console.error('There was an error adding a new user.' , error);
+        });*/
+        console.log('Add New User button clicked');
+        const newUser = {
+            name: 'New user',
+            email: 'newuser@example.com',  // Ensure this is valid and unique
+            role: 'SALES',                 // Ensure this matches expected values
+        };
+
+        // Log the payload being sent
+        console.log('Sending new user:', newUser);
+
+        axios.post('http://localhost:3001/users', newUser)
+        .then(response => {
+            console.log('New user added:', response.data);
+            setUsers([...users, response.data]);
+            setEditRowID(response.data.id); // Automatically switch to edit mode for the new user
+        })
+        .catch(error => {
+            if (error.response) {
+                // Log detailed server response
+                console.error('Error adding new user:', error.response.data);
+                alert(`Error: ${error.response.data.message || 'Bad Request'}`);
+            } else if (error.request) {
+                console.error('No response received from the server:', error.request);
+            } else {
+                console.error('Error setting up the request:', error.message);
+            }
         });
     }
 

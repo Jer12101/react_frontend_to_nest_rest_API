@@ -59,7 +59,7 @@
 }
 
 .other-message {
-  background-color: #ffffff; /* White for other users' messages */
+  background-color: rgba(0, 0, 0, 0.05); /* grey for other users' messages */
   text-align: justify;
   float: left;
   margin-left: 10px; /* Left alignment */
