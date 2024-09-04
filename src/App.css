@@ -23,6 +23,51 @@
   border-radius: 5px;
 }
 
+.message {
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  clear: both;
+  word-wrap: break-word; /* Ensure words break and wrap within the bubble */
+  overflow-wrap: break-word; /* Break long words */
+}
+
+/* Styles for user messages */
+.user-message {
+  background-color: #f1f1f1;
+  text-align: justify;
+}
+
+/* Styles for system messages */
+.system-message {
+  background-color: rgba(0, 0, 0, 0.05);
+  text-align: center;
+  font-style: italic;
+  color: #666;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content; /* Fit content for centering */
+}
+
+.my-message {
+  background-color: #dcf8c6; /* Light green for current user's messages */
+  text-align: justify;
+  float: right;
+  margin-right: 10px; /* Right alignment */
+  word-wrap: break-word; /* Ensure text wraps properly */
+  overflow-wrap: break-word; /* Break long words */
+}
+
+.other-message {
+  background-color: #ffffff; /* White for other users' messages */
+  text-align: justify;
+  float: left;
+  margin-left: 10px; /* Left alignment */
+  border: 1px solid #ddd;
+  word-wrap: break-word; /* Ensure text wraps properly */
+  overflow-wrap: break-word; /* Break long words */
+}
+
 h1 {
   margin-bottom: 20px;
   color: #333;

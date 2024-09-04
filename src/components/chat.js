@@ -59,8 +59,16 @@ const Chat = () => {
                 <div>
                     <div className = "chat-window">
                         {messages.map((msg, index) => (
-                            <div key = {index}>
-                                <strong>{msg.author}:</strong>{msg.body}
+                            <div
+                                key={index}
+                                className={`message ${msg.author === 'System' 
+                                    ? 'system-message' : msg.author === username
+                                    ? 'my-message'
+                                    : 'other-message'
+                                }`}
+                            >
+                            {msg.author !== 'System' && msg.author !== username && (<strong>{msg.author}:</strong>)}{" "}
+                            {msg.body}
                             </div>
                         ))}
                         <input
