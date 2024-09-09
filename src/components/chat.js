@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('ws://localhost:3001');
+const socket = io('ws://192.168.11.142:3001');
 
 // Triggering disconnect on window unload (like when the page is closed)
 window.addEventListener('beforeunload', () => {
