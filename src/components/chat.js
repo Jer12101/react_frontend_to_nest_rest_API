@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const socket = io('ws://192.168.11.142:3001');
+//const socket = io('ws://192.168.11.142:3001');
+const socket = io('ws://localhost:3001');
 
 // Triggering disconnect on window unload (like when the page is closed)
 window.addEventListener('beforeunload', () => {
@@ -12,6 +13,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [username, setUsername] = useState('');
+    const [roomId, setRoomId] = useState('');
     const [joined, setJoined] = useState(false);
 
     useEffect(() => {
@@ -24,18 +26,36 @@ const Chat = () => {
     }, []);
 
     const handleSendMessage = () => {
-        if (input.trim() && username) {
-            console.log(`Sending message: ${input}`);
-            socket.emit('message', { author: username, body: input });
+        if (input.trim() && username && roomId) {
+            console.log(`Sending message: ${input} to room: ${roomId}`);
+            
+            // Emit the message with roomId included
+            socket.emit('message', {
+                author: username,
+                body: input,
+                roomId, // Include roomId in the payload
+            });
+            
             setInput('');
         }
     };
 
-    const handleJoinChat = () => {
+    /*const handleJoinChat = () => {
         if (username.trim()) {
             socket.emit('join', username);
             setJoined(true);
         }
+    };*/
+    
+    const handleJoinRoom = () => {
+        if (username.trim()) {
+            socket.emit('join', { username, roomId });
+            setJoined(true);
+        }
+    };
+    
+    const handleLeaveRoom = () => {
+
     };
 
     const handleKeyDown = (e) => {
@@ -56,7 +76,13 @@ const Chat = () => {
                         value = {username}
                         onChange = { (e) => setUsername(e.target.value)}
                     />
-                    <button onClick={handleJoinChat}>Join Chat</button>
+                    <input
+                        type = "text"
+                        placeholder = "Enter the room ID"
+                        value = {roomId}
+                        onChange = { (e) => setRoomId(e.target.value)}
+                    />
+                    <button onClick={handleJoinRoom}>Join Room</button>
                 </div>   
             ):(
                 // If the user has joined the chat room

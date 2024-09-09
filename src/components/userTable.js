@@ -7,7 +7,8 @@ const UserTable = () => {
 
     // fetch users data from the backend
     useEffect(() => {
-        axios.get('http://192.168.11.142:3001/users')
+        axios.get('http://localhost:3001/users')
+        //axios.get('http://192.168.11.142:3001/users')
         .then(response => {
             setUsers(response.data);
         })
@@ -43,11 +44,16 @@ const UserTable = () => {
             return;
         }
         // save the updated data
-        axios.patch(`http://192.168.11.142:3001/users/${id}`, {
+        axios.patch(`http://localhost:3001/users/${id}`, {
             name: user.name,
             email: user.email,
             role: user.role,
         })
+        /*axios.patch(`http://192.168.11.142:3001/users/${id}`, {
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        })*/
         .then(() => {
             setEditRowID(null); // exit the edit mode
         })
@@ -61,19 +67,6 @@ const UserTable = () => {
     };
 
     const handleAddNewUser = () => {
-        /*console.log('Add New User button clicked');
-        axios.post('http://localhost:3001/users', {
-            name: 'New user',
-            email: 'newuser@example.com',
-            role: 'SALES',
-        })
-        .then(response => {
-            setUsers([...users, response.data]);
-            setEditRowID(response.data.id); // automatically switch to edit mode for the new user
-        })
-        .catch(error => {
-            console.error('There was an error adding a new user.' , error);
-        });*/
         console.log('Add New User button clicked');
         const newUser = {
             name: 'New user',
@@ -83,8 +76,8 @@ const UserTable = () => {
 
         // Log the payload being sent
         console.log('Sending new user:', newUser);
-
-        axios.post('http://192.168.11.142:3001/users', newUser)
+        axios.post('http://localhost:3001/users', newUser)
+        //axios.post('http://192.168.11.142:3001/users', newUser)
         .then(response => {
             console.log('New user added:', response.data);
             setUsers([...users, response.data]);
