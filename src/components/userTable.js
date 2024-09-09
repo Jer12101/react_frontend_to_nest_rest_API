@@ -43,7 +43,7 @@ const UserTable = () => {
             return;
         }
         // save the updated data
-        axios.patch(`http://192.168.11.142/users/${id}`, {
+        axios.patch(`http://192.168.11.142:3001/users/${id}`, {
             name: user.name,
             email: user.email,
             role: user.role,
