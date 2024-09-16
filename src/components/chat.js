@@ -98,7 +98,7 @@ const Chat = () => {
                                     : 'other-message'
                                 }`}
                             >
-                            {msg.author !== 'System' && msg.author !== username && (<strong>{msg.author}:</strong>)}{" "}
+                            {msg.author !== 'System' && msg.author !== username && (<strong>{msg.author}</strong>)}{" "}
                             {msg.body}
                             </div>
                         ))}
