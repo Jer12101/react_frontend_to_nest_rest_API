@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
+import axios from 'axios';
 
 //const socket = io('ws://192.168.11.142:3001');
 const socket = io('ws://localhost:3001');
@@ -28,15 +29,20 @@ const Chat = () => {
     const handleSendMessage = () => {
         if (input.trim() && username && roomId) {
             console.log(`Sending message: ${input} to room: ${roomId}`);
+
+        const message = {
+            username,
+            body: input,
+            roomId,
+        };
+
+        // Emit the message to the WebSocket server
+        socket.emit('message', message);
+
+        // Immediately append the message to the current list of messages
+        setMessages((prevMessages) => [...prevMessages, message]);
             
-            // Emit the message with roomId included
-            socket.emit('message', {
-                author: username,
-                body: input,
-                roomId, // Include roomId in the payload
-            });
-            
-            setInput('');
+        setInput('');
         }
     };
 
@@ -47,16 +53,22 @@ const Chat = () => {
         }
     };*/
     
-    const handleJoinRoom = () => {
+    const handleJoinRoom = async () => {
         if (username.trim()) {
             socket.emit('join', { username, roomId });
             setJoined(true);
+
+            // Fetch messages for the room from the backend
+            try {
+                const response = await axios.get(`http://localhost:3001/messages/room/${roomId}`);
+                console.log('Fetched messages: ', response.data);
+                setMessages(response.data); // Set messages to the response from the backend
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+            }
         }
     };
     
-    const handleLeaveRoom = () => {
-
-    };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -92,14 +104,16 @@ const Chat = () => {
                         {messages.map((msg, index) => (
                             <div
                                 key={index}
-                                className={`message ${msg.author === 'System' 
-                                    ? 'system-message' : msg.author === username
+                                className={`message ${msg.username === 'System' 
+                                    ? 'system-message' : msg.username === username
                                     ? 'my-message'
                                     : 'other-message'
                                 }`}
                             >
-                            {msg.author !== 'System' && msg.author !== username && (<strong>{msg.author}</strong>)}{" "}
-                            {msg.body}
+                            {msg.username !== 'System' && msg.username !== username && (
+                                <strong>{msg.username}</strong>
+                            )}
+                            {" "}{msg.body}
                             </div>
                         ))}
                         <input
