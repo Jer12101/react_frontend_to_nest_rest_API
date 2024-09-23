@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 
-//const socket = io('ws://192.168.11.142:3001');
-const socket = io('ws://localhost:3001');
+const socket = io('ws://192.168.11.142:3001');
+//const socket = io('ws://localhost:3001');
 
 // Triggering disconnect on window unload (like when the page is closed)
 window.addEventListener('beforeunload', () => {
@@ -61,7 +61,8 @@ const Chat = () => {
 
             // Fetch messages for the room from the backend
             try {
-                const response = await axios.get(`http://localhost:3001/messages/room/${roomId}`);
+                //const response = await axios.get(`http://localhost:3001/messages/room/${roomId}`);
+                const response = await axios.get(`http://192.168.11.142:3001/messages/room/${roomId}`);
                 console.log('Fetched messages: ', response.data);
                 setMessages(response.data); // Set messages to the response from the backend
             } catch (error) {
