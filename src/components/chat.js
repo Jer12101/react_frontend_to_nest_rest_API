@@ -19,6 +19,7 @@ const Chat = () => {
 
     useEffect(() => {
         socket.on('message', (message) => {
+            console.log(`Received message: `, message);
             setMessages((prevMessages) => [...prevMessages, message]);
         });
         return () => {
@@ -31,16 +32,16 @@ const Chat = () => {
             console.log(`Sending message: ${input} to room: ${roomId}`);
 
         const message = {
-            username,
+            author: username,
             body: input,
             roomId,
         };
 
         // Emit the message to the WebSocket server
         socket.emit('message', message);
-
+        console.log(`Received message: ${message.author} in ${message.roomId} received message ${message.body}`);
         // Immediately append the message to the current list of messages
-        setMessages((prevMessages) => [...prevMessages, message]);
+        // setMessages((prevMessages) => [...prevMessages, message]); // immediately render out the message I just sent
             
         setInput('');
         }
@@ -104,14 +105,14 @@ const Chat = () => {
                         {messages.map((msg, index) => (
                             <div
                                 key={index}
-                                className={`message ${msg.username === 'System' 
-                                    ? 'system-message' : msg.username === username
+                                className={`message ${msg.author === 'System' 
+                                    ? 'system-message' : msg.author === username
                                     ? 'my-message'
                                     : 'other-message'
                                 }`}
                             >
-                            {msg.username !== 'System' && msg.username !== username && (
-                                <strong>{msg.username}</strong>
+                            {msg.author !== 'System' && msg.author !== username && (
+                                <strong>{msg.author}</strong>
                             )}
                             {" "}{msg.body}
                             </div>
